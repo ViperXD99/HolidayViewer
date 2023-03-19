@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Request
 import com.android.volley.Response
@@ -18,8 +19,10 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import lk.nibm.holidayviewer.adaptor.CurrentMonthHolidayAdaptor
 import lk.nibm.holidayviewer.model.HolidaysModel
 import org.json.JSONObject
+import java.text.SimpleDateFormat
 import java.util.*
 
 class Home : AppCompatActivity() {
@@ -120,8 +123,63 @@ class Home : AppCompatActivity() {
         Volley.newRequestQueue(this).add(resultCountries)
     }
 
-    private fun getCurrentDayHolidayData(countryCode: String) {
+    private fun getCurrentDayHolidayData(countryId: String) {
+        val calendar = Calendar.getInstance()
+        val currentYear = calendar.get(Calendar.YEAR)
 
+        val url =
+            resources.getString(R.string.holidays_based_url) + resources.getString(R.string.API_Key) + "&country=" + countryId + "&year=" + currentYear
+        val result = StringRequest(Request.Method.GET, url, Response.Listener { response ->
+            try {
+                val jsonObject = JSONObject(response)
+                val jsonObjectResponse = jsonObject.getJSONObject("response")
+                val jsonArrayHolidays = jsonObjectResponse.getJSONArray("holidays")
+
+                // Check holidays in this month
+                val calendar = Calendar.getInstance()
+                val currentMonth = (calendar.get(Calendar.MONTH) + 1).toString()
+                val currentDay =
+                    SimpleDateFormat("d", Locale.getDefault()).format(Date()).toString()
+                val longMonth = SimpleDateFormat("MMMM", Locale.getDefault()).format(Date())
+                currentMonthHolidays.clear()
+                for (i in 0 until jsonArrayHolidays.length()) {
+                    val jsonObjectHolidayList = jsonArrayHolidays.getJSONObject(i)
+                    val date = jsonObjectHolidayList.getJSONObject("date")
+                    val dateTime = date.getJSONObject("datetime")
+                    val month = dateTime.getString("month")
+
+                    if (month == currentMonth) {
+                        val holidays = HolidaysModel()
+                        holidays.holidayName = jsonObjectHolidayList.getString("name")
+                        holidays.holidayDescription = jsonObjectHolidayList.getString("description")
+                        holidays.holidayDate = dateTime.getString("day")
+                        holidays.holidayMonth = longMonth
+                        holidays.holidayYear = dateTime.getString("year")
+                        holidays.holidayPrimaryType =
+                            jsonObjectHolidayList.getString("primary_type")
+                        holidays.holidayCountry =
+                            jsonObjectHolidayList.getJSONObject("country").getString("name")
+
+                        currentMonthHolidays.add(holidays)
+                    }
+
+                }
+                // Pass holidays to adapter
+                val adapter = CurrentMonthHolidayAdaptor(this, currentMonthHolidays)
+                rvThisMonthHolidays.setHasFixedSize(true)
+                rvThisMonthHolidays.layoutManager =
+                    LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+                rvThisMonthHolidays.adapter = adapter
+                adapter.notifyDataSetChanged()
+
+            } catch (e: Exception) {
+                Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
+            }
+        }, Response.ErrorListener { error ->
+            Toast.makeText(this, error.message, Toast.LENGTH_SHORT).show()
+
+        })
+        Volley.newRequestQueue(this).add(result)
     }
 
     fun getCurrentMonthHolidays(s: String): Any {
