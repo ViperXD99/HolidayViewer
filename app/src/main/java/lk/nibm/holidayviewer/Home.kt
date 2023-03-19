@@ -1,6 +1,7 @@
 package lk.nibm.holidayviewer
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Geocoder
 import androidx.appcompat.app.AppCompatActivity
@@ -52,6 +53,18 @@ class Home : AppCompatActivity() {
         initializeComponents()
         fusedLocation = LocationServices.getFusedLocationProviderClient(this)
         checkLocationPermission()
+        clickListeners()
+    }
+
+    private fun clickListeners() {
+        cardLocalHolidays.setOnClickListener {
+            val intent = Intent(this, LocalHolidays::class.java)
+            startActivity(intent)
+        }
+        cardGlobalHolidays.setOnClickListener {
+            val intent = Intent(this, GlobalHolidays::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun initializeComponents() {
