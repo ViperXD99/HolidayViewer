@@ -9,10 +9,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
-import android.widget.Button
-import android.widget.Spinner
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -65,13 +62,47 @@ class LocalHolidays : AppCompatActivity() {
         fusedLocation = LocationServices.getFusedLocationProviderClient(this)
 
         initializeComponents()
+        clickListeners()
 
         Handler(Looper.getMainLooper()).postDelayed({
             checkLocationPermission()
         },500)
 
     }
+    private fun clickListeners() {
+        val years = java.util.ArrayList<String>()
+        val currentYear = Calendar.getInstance().get(Calendar.YEAR)
+        for (i in 0..10) {
+            years.add((currentYear - i).toString())
+        }
+        val adapterYear = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, years)
+        spnYear?.adapter = adapterYear
 
+        btnFilter?.setOnClickListener {
+            Clear()
+            parentRecyclerView.adapter = null
+            val year = spnYear?.selectedItem.toString()
+            txtLHYear.text = year
+            getHolidayData(selectedCountry, year)
+
+        }
+    }
+
+    private fun Clear() {
+        childList1.clear()
+        childList2.clear()
+        childList3.clear()
+        childList4.clear()
+        childList5.clear()
+        childList6.clear()
+        childList7.clear()
+        childList8.clear()
+        childList9.clear()
+        childList10.clear()
+        childList11.clear()
+        childList12.clear()
+        parentList.clear()
+    }
 
 
     private fun checkLocationPermission() {
