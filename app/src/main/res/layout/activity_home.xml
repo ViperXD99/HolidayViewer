@@ -1,9 +1,287 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/gray_200"
+    android:scrollbars="none"
     tools:context=".Home">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10sp"
+            android:layout_marginTop="10sp"
+            android:layout_marginRight="10sp"
+            android:layout_marginBottom="5sp"
+            android:background="@drawable/hometop"
+            android:orientation="vertical"
+            android:padding="15dp">
+            <androidx.cardview.widget.CardView
+                android:layout_width="300dp"
+                android:layout_height="40dp"
+                android:layout_gravity="top|center"
+                app:cardCornerRadius="15dp"
+                app:cardElevation="4sp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:background="@drawable/date_gradient"
+                    android:textAlignment="center"
+                    tools:ignore="UseCompoundDrawables">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:src="@drawable/baseline_location_on_24"
+                        tools:ignore="ContentDescription" />
+
+                    <TextView
+                        android:id="@+id/txtHomeCurrentLocation"
+                        style="home_current_location"
+                        android:layout_width="250dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:padding="10dp"
+                        android:textSize="18sp"
+                        android:textColor="@color/gray_200"
+                        android:fontFamily="@font/robotobold"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <LinearLayout
+                android:layout_width="377dp"
+                android:layout_height="84dp"
+                android:layout_marginTop="10dp"
+
+                android:gravity="left">
+
+                <TextClock
+                    android:id="@+id/txtDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="20dp"
+                    android:fontFamily="@font/robotobold"
+                    android:format24Hour="dd"
+                    android:text="@string/home_text_clock_date"
+                    android:textColor="@color/gray_800"
+                    android:textSize="50sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10sp"
+                    android:orientation="vertical">
+
+                    <TextClock
+                        android:id="@+id/txtDay"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="5dp"
+                        android:fontFamily="@font/roboto_regular"
+                        android:format24Hour="EEEE"
+                        android:text="@string/home_text_clock_day"
+                        android:textColor="@color/blue_500"
+                        android:textSize="18sp" />
+                    <TextClock
+                        android:id="@+id/txtMonth"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:fontFamily="@font/robotobold"
+                        android:format24Hour="MMMM"
+                        android:text="@string/home_text_clock_month"
+                        android:textColor="@color/gray_800"
+                        android:textSize="25sp" />
+                </LinearLayout>
+                <ImageView
+                    android:id="@+id/imgChange"
+                    android:layout_width="100sp"
+                    android:layout_height="80sp" />
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10sp"
+            android:layout_marginLeft="10sp"
+            >
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:cardCornerRadius="15sp"
+                app:cardElevation="0sp">
+                <CalendarView
+                    android:id="@+id/calendarView"
+                    android:layout_width="match_parent"
+                    android:layout_height="340sp"
+                    android:background="@color/white"
+                    android:dateTextAppearance="@style/CalendarViewDateCustomText"
+                    android:theme="@style/CalendarViewCustom"
+                    android:weekDayTextAppearance="@style/CalendarViewWeekCustomText"/>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10sp"
+            android:layout_marginRight="10sp"
+            android:layout_marginTop="10sp"
+            android:layout_marginBottom="10sp">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/selectedDateRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </androidx.recyclerview.widget.RecyclerView>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardLocalHolidays"
+                android:layout_width="155dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginBottom="10dp"
+                app:cardCornerRadius="25dp"
+                app:cardElevation="2sp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
+                    android:orientation="horizontal"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:id="@+id/imgLocal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/holiday_island_tourism_svgrepo_com" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
+                        android:layout_marginLeft="5sp"
+                        android:gravity="center"
+                        android:text="Local"
+                        android:textColor="@color/blue_500"
+
+                        android:textSize="18sp" />
+                </LinearLayout>
+
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardGlobalHolidays"
+                android:layout_width="155dp"
+                android:layout_height="50dp"
+                android:layout_marginHorizontal="40sp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="20dp"
+                app:cardElevation="2sp"
+                app:cardCornerRadius="25dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
+                    android:orientation="horizontal"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:id="@+id/imgGlobal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/globe_showing_europe_africa_svgrepo_com" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
+                        android:layout_marginLeft="5sp"
+                        android:gravity="center"
+                        android:text="Global"
+                        android:textColor="@color/blue_500"
+                        android:textSize="18sp" />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="340dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="20dp"
+            app:cardCornerRadius="10sp"
+            android:backgroundTint="@color/white"
+
+            app:cardElevation="0sp"
+            tools:ignore="TextSizeCheck">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/txtHolidayIn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:padding="10dp"
+                        android:text="@string/holidays_in"
+                        android:textColor="@color/gray_900"
+                        android:textSize="16sp" />
+
+                    <TextClock
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:format24Hour="MMMM"
+                        android:text="@string/home_holidays_in_month"
+                        android:textColor="@color/gray_900"
+                        android:textSize="18sp"
+                        android:fontFamily="@font/robotobold" />
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvThisMonthHolidays"
+                    android:layout_width="match_parent"
+                    android:layout_height="270sp" />
+            </LinearLayout>
+
+
+        </androidx.cardview.widget.CardView>
+
+
+
+    </LinearLayout>
+
+</ScrollView>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="home_upper_card">
+        <item name="cardBackgroundColor">@color/indigo_400</item>
+        <item name="cardCornerRadius">15dp</item>
+    </style>
+    <!-- HOME Styles-->
+    <style name="welcome_card_text">
+        <item name="android:text">Remember to be awesome on</item>
+        <item name="android:textSize">20dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:gravity">center</item>
+
+    </style>
+    <!--Today Card HOME Styles-->
+    <style name="today_holiday_card">
+        <item name="cardCornerRadius">10sp</item>
+    </style>
+
+    <!-- LOCATION HOME Styles-->
+    <style name="home_current_location">
+        <item name="android:textAlignment">center</item>
+        <item name="android:textSize">20dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:text">SRI LANKA</item>
+    </style>
+
+    <style name="home_current_address">
+        <item name="android:textAlignment">center</item>
+        <item name="android:textSize">15dp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+
+    <style name="CalendarViewCustom" parent="Theme.AppCompat">
+        <item name="colorAccent">@color/blue_500</item>
+        <item name="colorPrimary">@color/gray_900</item>
+        <item name="android:textColorPrimary">@color/gray_900</item>
+    </style>
+    <style name="CalendarViewDateCustomText" parent="Theme.AppCompat">
+        <item name="colorControlNormal">@color/gray_800</item>
+        <item name="colorControlActivated">@color/white</item>
+        <item name="android:textColor">@color/gray_900</item>
+    </style>
+    <style name="CalendarViewWeekCustomText" parent="Theme.AppCompat">
+        <item name="android:textColor">@color/blue_500</item>
+    </style>
+
+</resources>
