@@ -83,7 +83,7 @@ class GlobalHolidays : AppCompatActivity() {
         Volley.newRequestQueue(this).add(resultCountries)
     }
 
-    private fun getCountryId(name: String) {
+    private fun getCountryId(countryName: String) {
         val url =
             resources.getString(R.string.countries_based_url) + resources.getString(R.string.API_Key)
         val resultCountries = StringRequest(Request.Method.GET, url, Response.Listener { response ->
@@ -93,7 +93,7 @@ class GlobalHolidays : AppCompatActivity() {
                 val jsonArrayCountries = jsonObjectResponse.getJSONArray("countries")
                 for (i in 0 until jsonArrayCountries.length()) {
                     val jsonObjectCountry = jsonArrayCountries.getJSONObject(i)
-                    if (jsonObjectCountry.getString("country_name") == name) {
+                    if (jsonObjectCountry.getString("country_name") == countryName) {
                         countryId = jsonObjectCountry.getString("iso-3166").toString()
                     }
                 }
