@@ -5,9 +5,13 @@ import android.content.pm.PackageManager
 import android.location.Geocoder
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.CalendarView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.cardview.widget.CardView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -21,6 +25,7 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import lk.nibm.holidayviewer.adaptor.CurrentMonthHolidayAdaptor
 import lk.nibm.holidayviewer.model.HolidaysModel
+import org.json.JSONArray
 import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.util.*
@@ -40,6 +45,7 @@ class Home : AppCompatActivity() {
     var isPermissionGranted: Boolean = false
     private val LOCATION_REQUEST_CODE = 100
     private var countryCode: String? = null
+    var holidayDataArray = JSONArray()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
@@ -124,6 +130,40 @@ class Home : AppCompatActivity() {
     }
 
     private fun getCurrentDayHolidayData(countryId: String) {
+        calendarView.setOnDateChangeListener(CalendarView.OnDateChangeListener { view, year, month, dayOfMonth ->
+
+            val todayDay = (dayOfMonth.toString())
+            val todayYear = year
+            val todayMonth = month + 1
+
+            val url =
+                resources.getString(R.string.holidays_based_url) + resources.getString(R.string.API_Key) + "&country=" + countryId + "&year=" + todayYear + "&month=" + todayMonth + "&day=" + todayDay
+
+            val request = StringRequest(Request.Method.GET, url,
+                Response.Listener { response ->
+                    try {
+                        val jsonObject = JSONObject(response)
+                        val jsonObjectResponse = jsonObject.getJSONObject("response")
+                        holidayDataArray = jsonObjectResponse.getJSONArray("holidays")
+                        selectedDateRecyclerView.adapter?.notifyDataSetChanged()
+
+
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+
+                    }
+                },
+                Response.ErrorListener { error ->
+                    error.printStackTrace()
+
+                })
+
+            Volley.newRequestQueue(this).add(request)
+
+        })
+    }
+
+    fun getCurrentMonthHolidays(countryId: String){
         val calendar = Calendar.getInstance()
         val currentYear = calendar.get(Calendar.YEAR)
 
@@ -182,10 +222,6 @@ class Home : AppCompatActivity() {
         Volley.newRequestQueue(this).add(result)
     }
 
-    fun getCurrentMonthHolidays(s: String): Any {
-        TODO("Not yet implemented")
-    }
-
     private fun checkLocationPermission() {
         if (ContextCompat.checkSelfPermission(
                 this,
@@ -225,6 +261,60 @@ class Home : AppCompatActivity() {
             }
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    }
+
+    inner class HolidayAdapter : RecyclerView.Adapter<HolidayViewHolder>() {
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HolidayViewHolder {
+            val view = LayoutInflater.from(parent.context)
+                .inflate(R.layout.selected_date_holidays, parent, false)
+
+            return HolidayViewHolder(view)
+        }
+
+        override fun onBindViewHolder(holder: HolidayViewHolder, position: Int) {
+            val calendar =   Calendar.getInstance()
+            if (holidayDataArray.length() == 0) {
+                holder.holidayName.text = "No Holiday ! "
+                holder.holidayType.text = ""
+            } else {
+                try {
+                    val holiday = holidayDataArray.getJSONObject(position)
+
+                    val holidayObject = holidayDataArray.getJSONObject(position)
+                    val holidayName = holidayObject.getString("name")
+                    val holidayType = holidayObject.getString("primary_type")
+                    val date = holidayObject.getJSONObject("date")
+                    val dateTime = date.getJSONObject("datetime")
+                    val day = dateTime.getString("day")
+
+
+                    holder.holidayName.text = holidayName
+                    holder.holidayType.text = holidayType
+                    holiday.getJSONObject("date").getJSONObject("datetime").getInt("day").toString()
+
+                    holder.itemView.setOnClickListener {
+                        val dialogBuilder = AlertDialog.Builder(holder.itemView.context)
+                        dialogBuilder.setTitle(holiday.getString("name"))
+                        dialogBuilder.setMessage(holiday.getString("description"))
+                        dialogBuilder.setPositiveButton("OK", null)
+                        dialogBuilder.create().show()
+                    }
+
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+        }
+
+        override fun getItemCount(): Int {
+            return if (holidayDataArray.length() == 0) 1 else holidayDataArray.length()
+        }
+    }
+
+    inner class HolidayViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
+        val holidayName: TextView = itemView.findViewById(R.id.txtTodayEvent)
+        val holidayType: TextView = itemView.findViewById(R.id.txtType)
     }
 
 }
