@@ -129,7 +129,50 @@ class GlobalHolidays : AppCompatActivity() {
     }
 
     private fun clickListeners() {
-        TODO("Not yet implemented")
+
+            val years = java.util.ArrayList<String>()
+            val currentYear = Calendar.getInstance().get(Calendar.YEAR)
+            for (i in 0..10) {
+                years.add((currentYear - i).toString())
+            }
+            val adapterYear = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, years)
+            spnYear?.adapter = adapterYear
+
+            btnFilter?.setOnClickListener {
+
+                Clear()
+                parentRecyclerView.adapter = null
+                val year = spnYear?.selectedItem.toString()
+                txtLHYear.text = year
+                txtLHCountry.text = selectedCountry
+                getHolidayData(countryId.toString(), year)
+                txtSelectCountry.text.clear()
+                closeKeyboard(txtSelectCountry)
+
+            }
+
+    }
+
+    private fun closeKeyboard(txtSelectCountry: AutoCompleteTextView) {
+
+    }
+
+    private fun Clear() {
+        
+            childList1.clear()
+            childList2.clear()
+            childList3.clear()
+            childList4.clear()
+            childList5.clear()
+            childList6.clear()
+            childList7.clear()
+            childList8.clear()
+            childList9.clear()
+            childList10.clear()
+            childList11.clear()
+            childList12.clear()
+            parentList.clear()
+        
     }
 
     @SuppressLint("MissingPermission")
