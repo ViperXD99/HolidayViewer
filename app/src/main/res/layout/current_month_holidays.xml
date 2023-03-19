@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cmrvRelativeLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="10sp"
+        app:cardUseCompatPadding="true"
+        app:cardElevation="0sp"
+        android:backgroundTint="@color/gray_50"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10sp"
+                android:layout_marginRight="10sp"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/txtCMHDate"
+                        android:layout_width="40sp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="10"
+                        android:textSize="20sp"
+                        android:layout_marginTop="5sp"
+                        android:fontFamily="@font/robotobold"
+                        android:textColor="@color/gray_900"/>
+                </LinearLayout>
+                <TextView
+                    android:layout_width="2sp"
+                    android:layout_marginTop="11sp"
+                    android:layout_marginBottom="4sp"
+                    android:layout_height="match_parent"
+                    android:background="@color/gray_900"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/txtCMHName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10sp"
+                        android:text="Holiday Name"
+                        android:textColor="@color/gray_900"
+                        android:layout_marginTop="7sp"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/roboto_medium"/>
+                </LinearLayout>
+
+
+
+
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5sp"
+                android:layout_marginBottom="5sp"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginBottom="3sp"
+                    android:layout_marginStart="10sp"
+                    android:textColor="@color/blue_600"
+                    android:text="Description : "
+                    android:fontFamily="@font/roboto_regular"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/txtCMHDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3sp"
+                    android:layout_marginBottom="3sp"
+                    android:text="Holiday Description"
+                    android:layout_marginStart="10sp"
+                    android:textColor="@color/gray_900"
+                    android:fontFamily="@font/roboto_regular"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/txtCMHPrimaryType"
+                android:layout_width="match_parent"
+                android:layout_height="20sp"
+                android:gravity="end"
+                android:text="Primary Type"
+                android:layout_marginRight="5sp"
+                android:layout_marginBottom="5sp"
+                android:textSize="15sp"
+                android:textColor="@color/gray_800"/>
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+</LinearLayout>
