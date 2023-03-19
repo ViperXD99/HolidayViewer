@@ -1,6 +1,8 @@
 package lk.nibm.holidayviewer
 
+import android.annotation.SuppressLint
 import android.icu.util.ULocale.getCountry
+import android.location.Geocoder
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
@@ -15,6 +17,8 @@ import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import org.json.JSONObject
+import java.util.*
+import kotlin.collections.ArrayList
 
 class GlobalHolidays : AppCompatActivity() {
     private lateinit var parentRecyclerView: RecyclerView
@@ -83,7 +87,7 @@ class GlobalHolidays : AppCompatActivity() {
         Volley.newRequestQueue(this).add(resultCountries)
     }
 
-    private fun getCountryId(name: String) {
+    private fun getCountryId(countryName: String) {
         val url =
             resources.getString(R.string.countries_based_url) + resources.getString(R.string.API_Key)
         val resultCountries = StringRequest(Request.Method.GET, url, Response.Listener { response ->
@@ -93,7 +97,7 @@ class GlobalHolidays : AppCompatActivity() {
                 val jsonArrayCountries = jsonObjectResponse.getJSONArray("countries")
                 for (i in 0 until jsonArrayCountries.length()) {
                     val jsonObjectCountry = jsonArrayCountries.getJSONObject(i)
-                    if (jsonObjectCountry.getString("country_name") == name) {
+                    if (jsonObjectCountry.getString("country_name") == countryName) {
                         countryId = jsonObjectCountry.getString("iso-3166").toString()
                     }
                 }
@@ -110,7 +114,38 @@ class GlobalHolidays : AppCompatActivity() {
         TODO("Not yet implemented")
     }
 
+    @SuppressLint("MissingPermission")
     private fun getCountry() {
+        val calendar = Calendar.getInstance()
+        val currentYear = calendar.get(Calendar.YEAR).toString()
+        if (isPermissionGranted) {
+            val locationResult = fusedLocation.lastLocation
+            locationResult.addOnCompleteListener(this) { location ->
+                if (location.isSuccessful) {
+                    val lastLocation = location.result
+                    val geocoder = Geocoder(this, Locale.getDefault())
+                    val addresses =
+                        geocoder.getFromLocation(lastLocation!!.latitude, lastLocation.longitude, 1)
+                    val country = addresses?.get(0)!!.countryCode
+                    val countryName = addresses?.get(0)!!.countryName
+                    selectedCountry = country
+                    txtLHCountry.text = countryName
+                    if (country != null) {
+                        getHolidayData(country, currentYear)
+                    } else {
+                        getHolidayData("LK", currentYear)
+                    }
+                } else {
+                    getHolidayData("LK", currentYear)
+                }
+            }
+        } else {
+            getHolidayData("LK", currentYear)
+
+        }
+    }
+
+    private fun getHolidayData(country: String, currentYear: String) {
         TODO("Not yet implemented")
     }
 }
