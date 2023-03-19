@@ -1,3 +1,19 @@
 <resources>
-    <string name="app_name">HolidayViewer</string>
+    <string name="app_name">HolidayApp</string>
+    <string name="location_not_found">Location Not Found</string>
+    <string name="unchangeableHomeText_Today">Today</string>
+    <string name="changeableHomeText_No_Holiday">---No Events---</string>
+    <string name="holidays_in">Holidays in</string>
+    <string name="home_text_clock_month">October</string>
+    <string name="home_text_clocks_separator">,</string>
+    <string name="home_text_clock_day">Tuesday</string>
+    <string name="home_text_clock_date">30</string>
+    <string name="home_holidays_in_month">March</string>
+
+    <!-- API Strings-->
+    <string name="API_Key">335241e8c97e32a411b4fda5e4f111b3eecd1c03</string>
+    <string name="holidays_based_url">https://calendarific.com/api/v2/holidays?api_key=</string>
+    <string name="countries_based_url">https://calendarific.com/api/v2/countries?api_key=</string>
+    <string name="sri_lanka">Sri Lanka</string>
+
 </resources>
