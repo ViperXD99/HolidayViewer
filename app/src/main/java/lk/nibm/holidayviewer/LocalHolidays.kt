@@ -8,4 +8,6 @@ class LocalHolidays : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_local_holidays)
     }
+
+
 }
