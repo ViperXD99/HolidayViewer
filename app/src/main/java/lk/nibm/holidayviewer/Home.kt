@@ -41,6 +41,7 @@ class Home : AppCompatActivity() {
     private lateinit var cardGlobalHolidays: CardView
     private lateinit var calendarView: CalendarView
 
+
     //For getting location
     private lateinit var fusedLocation: FusedLocationProviderClient
     var isPermissionGranted: Boolean = false
