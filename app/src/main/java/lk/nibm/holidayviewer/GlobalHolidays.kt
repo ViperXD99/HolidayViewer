@@ -1,6 +1,7 @@
 package lk.nibm.holidayviewer
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.icu.util.ULocale.getCountry
 import android.location.Geocoder
 import androidx.appcompat.app.AppCompatActivity
@@ -8,6 +9,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -153,8 +155,9 @@ class GlobalHolidays : AppCompatActivity() {
 
     }
 
-    private fun closeKeyboard(txtSelectCountry: AutoCompleteTextView) {
-
+    private fun closeKeyboard(view: View) {
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view.windowToken,0)
     }
 
     private fun Clear() {
